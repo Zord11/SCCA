@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8" />
+    <title>Calculadora Consumo de Água</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 480px; margin: 40px auto; }
+        label { display: block; margin-top: 10px; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        button { margin-top: 15px; padding: 10px; width: 100%; background-color: #0077b6; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #005f87; }
+        .resultado { margin-top: 20px; padding: 15px; background-color: #caf0f8; border-radius: 5px; }
+        .erro { color: red; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h1>Calculadora Consumo de Água</h1>
+
+    <form method="POST">
+        <label>Gasto mensal com água (R$):</label>
+        <input type="number" name="gasto_mensal" step="0.01" required />
+
+        <label>Tamanho da família:</label>
+        <select name="tamanho_familia" required>
+            <option value="">Selecione</option>
+            <option value="2">2 pessoas</option>
+            <option value="3">3 pessoas</option>
+            <option value="4">4 pessoas</option>
+            <option value="5">5 pessoas</option>
+        </select>
+
+        <label>Consumo do mês 1 (m³):</label>
+        <input type="number" name="mes1" step="0.01" required />
+
+        <label>Consumo do mês 2 (m³):</label>
+        <input type="number" name="mes2" step="0.01" required />
+
+        <label>Consumo do mês 3 (m³):</label>
+        <input type="number" name="mes3" step="0.01" required />
+
+        <button type="submit">Calcular</button>
+    </form>
+
+    {% if resultado %}
+        <div class="resultado">
+            {% if resultado.erro %}
+                <p class="erro">{{ resultado.erro }}</p>
+            {% else %}
+                <p><strong>Média dos 3 meses:</strong> {{ resultado.media_consumo }} m³</p>
+                <p><strong>Média de referência para sua família:</strong> {{ resultado.media_ref }} m³</p>
+                <p><strong>Status:</strong> {{ resultado.status }}</p>
+                <p><strong>Custo aproximado por m³:</strong> R$ {{ resultado.custo_por_m3 }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
